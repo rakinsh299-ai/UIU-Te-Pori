@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UIU te Pori</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body {
+    background: #fff;
+    color: #333;
+}
+
+/* HEADER */
+header {
+    height: 80px;
+    background: #ff7a00;
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, .15);
+}
+header h1 {
+    color: #fff;
+    font-size: 28px;
+}
+
+/* HERO */
+.hero {
+    text-align: center;
+    padding: 60px 20px;
+}
+.hero h2 {
+    font-size: 42px;
+    color: #ff7a00;
+}
+
+/* LINKS / CARDS */
+.links {
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 20px 20px 60px;
+}
+
+.card {
+    width: 260px;
+    background: #fff;
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    text-decoration: none;
+    color: #333;
+    border-top: 6px solid #ff7a00;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, .12);
+    transition: .3s;
+}
+.card:hover {
+    transform: translateY(-8px);
+}
+.card h3 {
+    color: #ff7a00;
+    margin-bottom: 10px;
+}
+
+/* AI SECTION */
+.ai-section {
+    background: #fff2e8;
+    padding: 60px 20px;
+}
+.ai-box {
+    max-width: 1100px;
+    margin: auto;
+}
+.ai-box h2 {
+    text-align: center;
+    color: #ff7a00;
+    font-size: 36px;
+    margin-bottom: 40px;
+}
+
+/* CGPA SECTION */
+.cgpa-section {
+    background: #fff7f0;
+    padding: 60px 20px;
+}
+.cgpa-box {
+    max-width: 800px;
+    margin: auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .15);
+}
+.cgpa-box h2 {
+    text-align: center;
+    color: #ff7a00;
+    margin-bottom: 25px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 12px;
+    text-align: center;
+}
+th {
+    background: #ff7a00;
+    color: white;
+}
+input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.btn {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: #ff7a00;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.btn:hover {
+    background: #e66a00;
+}
+.result {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 22px;
+    color: #ff7a00;
+    font-weight: bold;
+}
+
+/* ==================== SMART STUDY SECTION ==================== */
+.smart-study-section {
+    background: #fff; /* Alternating background color */
+    padding: 60px 20px;
+}
+.smart-study-box {
+    max-width: 600px;
+    margin: auto;
+    background: #fff;
+    padding: 40px;
+    border-radius: 30px; 
+    border: 3px solid #ff7a00;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .15);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.smart-study-box h2 {
+    color: #ff7a00; 
+    font-size: 32px; 
+    margin-bottom: 25px;
+}
+.study-step { 
+    display: none; 
+    animation: slideIn 0.5s ease; 
+}
+.active-step { 
+    display: block; 
+}
+@keyframes slideIn { 
+    from { opacity: 0; transform: translateY(20px); } 
+    to { opacity: 1; transform: translateY(0); } 
+}
+.step-title { 
+    font-size: 18px; 
+    font-weight: 600; 
+    color: #444; 
+    margin-bottom: 20px; 
+}
+.smart-study-box select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 2px solid #eee;
+    background: #fafafa;
+    font-size: 16px;
+    outline: none;
+    margin-bottom: 25px;
+    cursor: pointer;
+}
+.ss-btn {
+    width: 100%;
+    padding: 15px;
+    border-radius: 12px;
+    border: none;
+    background: #ff7a00;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.ss-btn:hover { 
+    background: #e66a00; 
+    transform: translateY(-2px); 
+}
+.plan-card {
+    text-align: left;
+    background: #fff7f0;
+    padding: 20px;
+    border-radius: 15px;
+    border-left: 6px solid #ff7a00;
+    margin-bottom: 25px;
+    font-size: 16px;
+    line-height: 1.8;
+}
+#stopwatchDisplay { 
+    font-size: 55px; 
+    font-weight: bold; 
+    color: #ff7a00; 
+    margin: 15px 0; 
+    letter-spacing: 2px; 
+}
+.caring-msg {
+    font-size: 14px;
+    color: #666;
+    font-style: italic;
+    background: #fff2e8;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px dashed #ff7a00;
+    margin-bottom: 20px;
+}
+.ss-controls { 
+    display: flex; 
+    gap: 10px; 
+    margin-top: 10px; 
+}
+.pause-btn { background: #555; flex: 1; }
+.pause-btn:hover { background: #333; }
+.reset-btn { background: #ccc; flex: 1; color: #333; }
+.reset-btn:hover { background: #bbb; }
+
+#breakOverlay {
+    display: none;
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: #ff7a00;
+    color: white;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    z-index: 10;
+}
+
+/* GAME ZONE SECTION */
+.game-section {
+    background: #fff2e8; /* matches ai-section for alternating colors */
+    padding: 60px 20px;
+}
+.game-box {
+    max-width: 800px;
+    margin: auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .15);
+}
+.game-box h2 {
+    text-align: center;
+    color: #ff7a00;
+    margin-bottom: 20px;
+}
+.game-card {
+    width: 200px;
+}
+#gameContainer {
+    margin-top: 20px;
+    text-align: center;
+}
+canvas {
+    background: #f1f1f1;
+    border: 2px solid #ff7a00;
+    border-radius: 12px;
+    margin: auto;
+    display: block;
+}
+.fun-text {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 16px;
+    color: #777;
+    font-style: italic;
+}
+
+@media(max-width: 600px) {
+    .hero h2 { font-size: 30px; }
+    .ai-box h2 { font-size: 28px; }
+    #stopwatchDisplay { font-size: 45px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>UIU te Pori</h1>
+</header>
+
+<section class="hero">
+    <h2>
+        There's no need of thousand Bookmarks <br>
+        We Got YOU!
+    </h2>
+</section>
+
+<section class="links">
+    <a class="card" href="https://www.uiu.ac.bd/notice/" target="_blank">
+        <h3>UIU Notices</h3>
+        <p>Official university notices</p>
+    </a>
+
+    <a class="card" href="https://ucam.uiu.ac.bd/Security/Login.aspx" target="_blank">
+        <h3>EMS</h3>
+        <p>Registration & results</p>
+    </a>
+
+    <a class="card" href="https://elms.uiu.ac.bd/login/index.php" target="_blank">
+        <h3>ELMS</h3>
+        <p>Assignments & resources</p>
+    </a>
+
+    <a class="card" href="https://ucamcloud.uiu.ac.bd/login?rf=proxy_no_token&id=" target="_blank">
+        <h3>Ucam Cloud</h3>
+        <p>Cloud services</p>
+    </a>
+
+    <a class="card" href="https://uiuqb.vercel.app/" target="_blank">
+        <h3>Question Bank</h3>
+        <p>Practice & previous questions</p>
+    </a>
+
+    <a class="card" href="https://www.uiu.ac.bd/academics/calendar/" target="_blank">
+        <h3>Academic Calendar</h3>
+        <p>Semester & exam dates</p>
+    </a>
+</section>
+
+<section class="ai-section">
+    <div class="ai-box">
+        <h2>AI Tools for UIU Students</h2>
+
+        <div class="links">
+            <a class="card" href="https://chat.openai.com/" target="_blank">
+                <h3>ChatGPT</h3>
+                <p>Assignments, coding & ideas</p>
+            </a>
+
+            <a class="card" href="https://gemini.google.com/" target="_blank">
+                <h3>Gemini</h3>
+                <p>Google AI assistant</p>
+            </a>
+
+            <a class="card" href="https://www.deepseek.com/" target="_blank">
+                <h3>DeepSeek</h3>
+                <p>Advanced AI reasoning</p>
+            </a>
+
+            <a class="card" href="https://claude.ai/" target="_blank">
+                <h3>Claude</h3>
+                <p>Long answers & analysis</p>
+            </a>
+
+            <a class="card" href="https://www.perplexity.ai/" target="_blank">
+                <h3>Perplexity</h3>
+                <p>AI search engine</p>
+            </a>
+
+            <a class="card" href="https://copilot.microsoft.com/" target="_blank">
+                <h3>Copilot</h3>
+                <p>Microsoft AI assistant</p>
+            </a>
+
+            <a class="card" href="https://poe.com/" target="_blank">
+                <h3>Poe</h3>
+                <p>Multiple AI models</p>
+            </a>
+
+            <a class="card" href="https://huggingface.co/" target="_blank">
+                <h3>Hugging Face</h3>
+                <p>AI models & tools</p>
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="cgpa-section">
+    <div class="cgpa-box">
+        <h2>UIU CGPA Calculator</h2>
+
+        <table id="cgTable">
+            <tr>
+                <th>Course Name</th>
+                <th>Credit</th>
+                <th>Grade Point</th>
+            </tr>
+            <tr>
+                <td><input placeholder="CSE 111"></td>
+                <td><input type="number" step="0.5"></td>
+                <td><input type="number" step="0.01"></td>
+            </tr>
+        </table>
+
+        <button class="btn" onclick="addRow()">➕ Add Course</button>
+        <button class="btn" onclick="calculateCGPA()">📊 Calculate CGPA</button>
+
+        <div class="result" id="result"></div>
+    </div>
+</section>
+
+<section class="smart-study-section">
+    <div class="smart-study-box">
+        <h2>Smart Study 🧠</h2>
+
+        <div id="step1" class="study-step active-step">
+            <p class="step-title">How many hours you want to study?</p>
+            <select id="studyHours">
+                <option value="2">2 Hours</option>
+                <option value="3">3 Hours</option>
+                <option value="4">4 Hours</option>
+                <option value="5">5 Hours</option>
+            </select>
+            <button class="ss-btn" onclick="nextStep(2)">Next ❯</button>
+        </div>
+
+        <div id="step2" class="study-step">
+            <p class="step-title">What type of student are you?</p>
+            <select id="studentType">
+                <option value="procrastinator">Procrastinator (Needs breaks)</option>
+                <option value="average">Balanced Student</option>
+                <option value="topper">The Topper (Long Focus)</option>
+            </select>
+            <button class="ss-btn" onclick="nextStep(3)">Next ❯</button>
+        </div>
+
+        <div id="step3" class="study-step">
+            <p class="step-title">Select Subject Type:</p>
+            <select id="subjectType">
+                <option value="math">Mathematical / Coding</option>
+                <option value="theory">Theoretical / Reading</option>
+            </select>
+            <button class="ss-btn" onclick="generatePlan()">OK (Generate Plan)</button>
+        </div>
+
+        <div id="step4" class="study-step">
+            <p class="step-title" style="color: #ff7a00;">Your Study Plan 📝</p>
+            <div id="planList" class="plan-card"></div>
+            <button class="ss-btn" onclick="startSmartStudy()">Cholo Pori 🚀</button>
+        </div>
+
+        <div id="step5" class="study-step">
+            <div id="stopwatchDisplay">00:00:00</div>
+            <p id="studyStatus" style="font-weight: 600; color: #555; margin-bottom: 15px;">Focusing...</p>
+            
+            <p class="caring-msg">
+                "Tomar jodi beshi stressed lage then tumi chaile pause kore ektu game khele nite paro"
+            </p>
+
+            <div class="ss-controls">
+                <button class="ss-btn pause-btn" id="pauseBtn" onclick="togglePause()">Pause</button>
+                <button class="ss-btn reset-btn" onclick="resetStudy()">Reset</button>
+            </div>
+        </div>
+
+        <div id="breakOverlay">
+            <h1 style="font-size: 32px;">BREAK TIME! 🔔</h1>
+            <p id="breakMsg" style="margin: 20px 0; font-size: 18px;"></p>
+            <button class="ss-btn" style="background: white; color: #ff7a00;" onclick="resumeStudy()">I'm Back (Resume)</button>
+        </div>
+    </div>
+</section>
+<section class="game-section">
+    <div class="game-box">
+        <h2>Games Zone 🎮</h2>
+        <div class="links" style="padding: 10px; padding-bottom: 0;">
+            <div class="card game-card">
+                <h3>Tic Tac Toe (Bot)</h3>
+                <button class="btn" onclick="startTicTacToe()">Start Game</button>
+            </div>
+            <div class="card game-card">
+                <h3>Snake</h3>
+                <button class="btn" onclick="startSnake()">Start Game</button>
+            </div>
+        </div>
+        <div class="fun-text">Ar koto porba asho game kheli 😄</div>
+        <div id="gameContainer"></div>
+    </div>
+</section>
+
+<script>
+// ==================== CGPA CALCULATOR LOGIC ====================
+function addRow(){
+    let table = document.getElementById("cgTable");
+    let row = table.insertRow();
+    row.innerHTML = `
+        <td><input placeholder="Course Name"></td>
+        <td><input type="number" step="0.5"></td>
+        <td><input type="number" step="0.01"></td>
+    `;
+}
+
+function calculateCGPA(){
+    let table = document.getElementById("cgTable");
+    let totalPoints = 0, totalCredits = 0;
+
+    for(let i=1; i<table.rows.length; i++){
+        let credit = table.rows[i].cells[1].children[0].value;
+        let cg = table.rows[i].cells[2].children[0].value;
+        if(credit && cg){
+            totalCredits += +credit;
+            totalPoints += credit * cg;
+        }
+    }
+
+    document.getElementById("result").innerText =
+        totalCredits ? "Your CGPA: " + (totalPoints/totalCredits).toFixed(2)
+        : "Please enter course details";
+}
+
+// ==================== TIC TAC TOE HARD BOT ====================
+function startTicTacToe(){
+    const container = document.getElementById("gameContainer");
+    container.innerHTML = "";
+    let board = ["","","","","","","","",""];
+    let current = "X";
+
+    const table = document.createElement("table");
+    table.style.margin = "auto";
+    table.style.borderCollapse = "collapse";
+    table.style.width = "auto";
+
+    for(let r=0; r<3; r++){
+        const tr = document.createElement("tr");
+        for(let c=0; c<3; c++){
+            const td = document.createElement("td");
+            td.style.width = "80px"; 
+            td.style.height = "80px"; 
+            td.style.fontSize = "36px";
+            td.style.border = "2px solid #ff7a00"; 
+            td.style.textAlign = "center"; 
+            td.style.cursor = "pointer";
+            td.dataset.index = r * 3 + c;
+            
+            td.onclick = function(){
+                const idx = this.dataset.index;
+                if(board[idx] === ""){
+                    board[idx] = "X";
+                    this.innerText = "X";
+                    if(checkWin(board, "X")){ alert("You Won!"); container.innerHTML=""; return; }
+                    if(board.every(x => x !== "")){ alert("Draw!"); container.innerHTML=""; return; }
+                    botMove();
+                }
+            }
+            tr.appendChild(td);
+        }
+        table.appendChild(tr);
+    }
+    container.appendChild(table);
+
+    function botMove(){
+        const bot = "O";
+        const player = "X";
+
+        // check win or block
+        for(let i=0; i<9; i++){
+            if(board[i] === ""){
+                board[i] = bot; if(checkWin(board, bot)){ updateCell(i, bot); return; } board[i] = "";
+                board[i] = player; if(checkWin(board, player)){ updateCell(i, bot); return; } board[i] = "";
+            }
+        }
+        // random move
+        let empty = []; board.forEach((v,i) => { if(v === "") empty.push(i); });
+        if(empty.length === 0) return;
+        const idx = empty[Math.floor(Math.random() * empty.length)];
+        updateCell(idx, bot);
+    }
+
+    function updateCell(idx, val){
+        board[idx] = val;
+        table.rows[Math.floor(idx/3)].cells[idx%3].innerText = val;
+        if(checkWin(board, val)){ alert(val === "O" ? "Bot Won!" : "You Won!"); container.innerHTML=""; return; }
+        if(board.every(x => x !== "")){ alert("Draw!"); container.innerHTML=""; return; }
+    }
+
+    function checkWin(b, s){
+        const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+        return wins.some(w => w.every(i => b[i] === s));
+    }
+}
+
+// ==================== SNAKE PROGRESSIVE SPEED ====================
+let snakeLoop;
+function startSnake(){
+    const container = document.getElementById("gameContainer");
+    container.innerHTML = "";
+    cancelAnimationFrame(snakeLoop);
+
+    const canvas = document.createElement("canvas");
+    canvas.width = 300; 
+    canvas.height = 300; 
+    container.appendChild(canvas);
+    const ctx = canvas.getContext("2d");
+
+    let grid = 15, snake = [{x:10, y:10}], dx = 1, dy = 0, apple = {x:5, y:5}, count = 0;
+    let speed = 12; // initial slow
+    let eaten = 0; // apples eaten
+
+    document.addEventListener("keydown", function(e){
+        if(e.key === "ArrowUp" && dy === 0){ dx = 0; dy = -1; }
+        if(e.key === "ArrowDown" && dy === 0){ dx = 0; dy = 1; }
+        if(e.key === "ArrowLeft" && dx === 0){ dx = -1; dy = 0; }
+        if(e.key === "ArrowRight" && dx === 0){ dx = 1; dy = 0; }
+    });
+
+    function loop(){
+        snakeLoop = requestAnimationFrame(loop);
+        if(++count < speed) return;
+        count = 0;
+
+        // move head with edge wrap
+        let head = {
+            x: (snake[0].x + dx + canvas.width/grid) % (canvas.width/grid),
+            y: (snake[0].y + dy + canvas.height/grid) % (canvas.height/grid)
+        };
+
+        // check self-bite
+        if(snake.some(s => s.x === head.x && s.y === head.y)){
+            alert("Game Over! You bit yourself.");
+            cancelAnimationFrame(snakeLoop);
+            container.innerHTML = "";
+            return;
+        }
+
+        snake.unshift(head);
+
+        // eat apple
+        if(head.x === apple.x && head.y === apple.y){
+            apple = {
+                x: Math.floor(Math.random() * (canvas.width/grid)),
+                y: Math.floor(Math.random() * (canvas.height/grid))
+            };
+            eaten++;
+            if(eaten % 5 === 0 && speed > 3) speed--; // faster every 5 apples
+        } else {
+            snake.pop();
+        }
+
+        // draw
+        ctx.fillStyle = "#f1f1f1"; 
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#ff7a00"; 
+        snake.forEach(s => ctx.fillRect(s.x * grid, s.y * grid, grid - 1, grid - 1));
+        ctx.fillStyle = "green"; 
+        ctx.fillRect(apple.x * grid, apple.y * grid, grid - 1, grid - 1);
+    }
+    loop();
+}
+
+// ==================== SMART STUDY LOGIC ====================
+let studySecs = 0, studyTimer, nextBreakAt = 0, breakInterval = 0;
+let isPaused = false;
+
+function nextStep(s) {
+    document.querySelectorAll('.study-step').forEach(el => el.classList.remove('active-step'));
+    document.getElementById('step' + s).classList.add('active-step');
+}
+
+function generatePlan() {
+    const sType = document.getElementById("studentType").value;
+    const hours = document.getElementById("studyHours").value;
+    breakInterval = sType === "procrastinator" ? 25 : (sType === "topper" ? 60 : 45);
+    
+    document.getElementById("planList").innerHTML = `
+        🎯 Goal: <b>${hours} Hours</b> study<br>
+        ⏱ Sessions: <b>${breakInterval} min</b> focus work<br>
+        ☕ Break: <b>After every session</b>
+    `;
+    nextStep(4);
+}
+
+function startSmartStudy() {
+    speak("Let's start studying");
+    nextStep(5);
+    studySecs = 0;
+    nextBreakAt = breakInterval * 60;
+    runTimer();
+}
+
+function runTimer() {
+    isPaused = false;
+    document.getElementById("pauseBtn").innerText = "Pause";
+    studyTimer = setInterval(() => {
+        studySecs++;
+        updateDisplay();
+        if (studySecs >= nextBreakAt) triggerBreak();
+    }, 1000);
+}
+
+function updateDisplay() {
+    let h = Math.floor(studySecs / 3600);
+    let m = Math.floor((studySecs % 3600) / 60);
+    let s = studySecs % 60;
+    document.getElementById("stopwatchDisplay").innerText = 
+        `${h < 10 ? '0' : ''}${h}:${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+}
+
+function togglePause() {
+    if (!isPaused) {
+        clearInterval(studyTimer);
+        isPaused = true;
+        document.getElementById("pauseBtn").innerText = "Resume";
+        document.getElementById("studyStatus").innerText = "Session Paused";
+    } else {
+        runTimer();
+        document.getElementById("studyStatus").innerText = "Focusing...";
+    }
+}
+
+function triggerBreak() {
+    clearInterval(studyTimer);
+    const msgs = ["Drink water! 💧", "Stretch your body! 🤸", "Eye rest for 2 mins! 👀"];
+    document.getElementById("breakMsg").innerText = msgs[Math.floor(Math.random() * msgs.length)];
+    document.getElementById("breakOverlay").style.display = "flex";
+    
+    // Sound alert
+    const context = new AudioContext();
+    const osc = context.createOscillator();
+    osc.connect(context.destination);
+    osc.start(); osc.stop(context.currentTime + 0.3);
+}
+
+function resumeStudy() {
+    document.getElementById("breakOverlay").style.display = "none";
+    nextBreakAt = studySecs + (breakInterval * 60);
+    runTimer();
+}
+
+function resetStudy() {
+    clearInterval(studyTimer);
+    nextStep(1);
+}
+
+function speak(text) {
+    if ('speechSynthesis' in window) {
+        const msg = new SpeechSynthesisUtterance(text);
+        msg.rate = 0.9;
+        window.speechSynthesis.speak(msg);
+    }
+}
+</script>
+
+</body>
+</html>
