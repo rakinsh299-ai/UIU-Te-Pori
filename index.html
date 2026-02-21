@@ -82,7 +82,26 @@ td { padding:10px; }
 input { width:100%; padding:10px; border-radius:8px; border:1px solid #ddd; outline:none; }
 .btn { margin: 5px; padding:12px 20px; background:#ff7a00; color:white; border:none; border-radius:10px; cursor:pointer; font-weight:bold; transition: 0.2s; box-shadow: 0 4px 10px rgba(255,122,0,0.2); }
 .btn:hover { background:#e66a00; transform: translateY(-2px); }
-.result { margin-top:20px; text-align:center; font-size:24px; color:#ff7a00; font-weight:bold; }
+
+/* ==================== SNAKE D-PAD CONTROLS ==================== */
+.controls { 
+    display: none; 
+    grid-template-columns: repeat(3, 60px); 
+    grid-template-rows: repeat(3, 60px); 
+    gap: 8px; 
+    justify-content: center; 
+    margin: 20px auto; 
+}
+.controls button { 
+    width: 60px; height: 60px; background: #ff7a00; color: white; 
+    border: none; border-radius: 12px; font-size: 24px; font-weight: bold; cursor: pointer; 
+    box-shadow: 0 4px 0 #cc6200;
+}
+.controls button:active { transform: translateY(2px); box-shadow: 0 2px 0 #cc6200; }
+.btn-up { grid-column: 2; grid-row: 1; }
+.btn-left { grid-column: 1; grid-row: 2; }
+.btn-right { grid-column: 3; grid-row: 2; }
+.btn-down { grid-column: 2; grid-row: 3; }
 
 /* ==================== GAME & CALENDAR ==================== */
 .game-section { background:#fff2e8; padding:60px 20px; text-align: center; }
@@ -93,10 +112,6 @@ canvas { background:#000; border:4px solid #ff7a00; border-radius:10px; display:
 .calendar-container { max-width: 1000px; margin: auto; height: 600px; border: 5px solid #ff7a00; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
 iframe { width: 100%; height: 100%; border: none; }
 
-/* Mobile Controllers */
-.controls { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 180px; margin: 20px auto; display: none; }
-.controls button { padding: 15px; background: #ff7a00; color: white; border: none; border-radius: 10px; font-weight: bold; font-size: 20px; cursor: pointer; }
-
 @media(max-width:768px){ 
     header { padding: 0 15px; }
     .header-left h1 { font-size: 18px; }
@@ -104,7 +119,6 @@ iframe { width: 100%; height: 100%; border: none; }
     .header-right a { font-size: 11px; padding: 5px; }
     .hero h2{ font-size:28px;} 
     #stopwatchDisplay{ font-size:48px;} 
-    .controls { display: grid; }
     .calendar-container { height: 400px; }
 }
 </style>
@@ -223,11 +237,12 @@ iframe { width: 100%; height: 100%; border: none; }
             <button class="btn" onclick="initSnake()">Snake Game</button>
         </div>
         <div id="game-container"><p style="padding:20px;">Select a game to chill!</p></div>
+        
         <div class="controls" id="mobile-controls">
-            <button onclick="changeDir(0,-1)">↑</button>
-            <button onclick="changeDir(-1,0)">←</button>
-            <button onclick="changeDir(1,0)">→</button>
-            <button onclick="changeDir(0,1)">↓</button>
+            <button class="btn-up" onclick="changeDir(0,-1)">↑</button>
+            <button class="btn-left" onclick="changeDir(-1,0)">←</button>
+            <button class="btn-right" onclick="changeDir(1,0)">→</button>
+            <button class="btn-down" onclick="changeDir(0,1)">↓</button>
         </div>
     </div>
 </section>
@@ -240,7 +255,7 @@ iframe { width: 100%; height: 100%; border: none; }
 </section>
 
 <script>
-/* VOICE SYNTHESIS FUNCTION */
+/* VOICE SYNTHESIS */
 function speak(text) {
     const msg = new SpeechSynthesisUtterance(text);
     msg.rate = 0.9;
@@ -287,19 +302,13 @@ function generatePlan(){
     nextStep(4);
 }
 function startSmartStudy(){ 
-    nextStep(5); 
-    speak("Let's start studying");
-    runTimer(); 
+    nextStep(5); speak("Let's start studying"); runTimer(); 
 }
 function runTimer(){ isP=false; document.getElementById("pauseBtn").innerText="Pause"; sTimer = setInterval(()=>{ sSec++; updateDisp(); }, 1000); }
 function updateDisp(){
     let h=Math.floor(sSec/3600), m=Math.floor((sSec%3600)/60), s=sSec%60;
     document.getElementById("stopwatchDisplay").innerText = `${h<10?'0':''}${h}:${m<10?'0':''}${m}:${s<10?'0':''}${s}`;
-    if(sSec >= targetSecs && targetSecs > 0) {
-        clearInterval(sTimer);
-        speak("The timer has ended");
-        alert("Well done! Your study session is complete.");
-    }
+    if(sSec >= targetSecs && targetSecs > 0) { clearInterval(sTimer); speak("The timer has ended"); alert("Session complete!"); }
 }
 function togglePause(force){ if(force || !isP){ clearInterval(sTimer); isP=true; document.getElementById("pauseBtn").innerText="Resume"; } else runTimer(); }
 function resetStudy(){ clearInterval(sTimer); sSec=0; nextStep(1); }
@@ -309,8 +318,7 @@ let board = ["","","","","","","","",""], gameActive = false;
 let snakeTimer, snakeDx = 1, snakeDy = 0;
 
 function initTicTacToe() {
-    clearInterval(snakeTimer); 
-    document.getElementById('mobile-controls').style.display = 'none';
+    clearInterval(snakeTimer); document.getElementById('mobile-controls').style.display = 'none';
     const container = document.getElementById('game-container');
     container.innerHTML = `<h3 id="ttt-status" style="color:#ff7a00; margin-bottom:10px;">Your Turn (X)</h3><table id="ttt-table" style="margin:auto; border-collapse:collapse;"></table>`;
     board = ["","","","","","","","",""]; gameActive = true;
@@ -323,33 +331,22 @@ function initTicTacToe() {
         }
     }
 }
-// AI Logic and other TicTacToe helper functions omitted for brevity but they are integrated in the full script above.
 
 function initSnake() {
     gameActive=false; 
-    if(window.innerWidth<=600) document.getElementById('mobile-controls').style.display='grid';
+    if(window.innerWidth <= 768) document.getElementById('mobile-controls').style.display = 'grid';
     const container = document.getElementById('game-container');
     container.innerHTML = `<canvas id="snakeCanvas" width="300" height="300"></canvas>`;
     const ctx = document.getElementById('snakeCanvas').getContext('2d');
     let snake = [{x:10, y:10}], apple = {x:5, y:5};
     snakeDx = 1; snakeDy = 0;
     
-    // Exposed globally for both click and keyboard
-    window.changeDir = (x,y) => { 
-        if(x + snakeDx !== 0 || y + snakeDy !== 0){ 
-            snakeDx = x; 
-            snakeDy = y; 
-        } 
-    };
+    window.changeDir = (x,y) => { if(x + snakeDx !== 0 || y + snakeDy !== 0){ snakeDx = x; snakeDy = y; } };
 
     clearInterval(snakeTimer);
     snakeTimer = setInterval(() => {
         let head = {x:(snake[0].x + snakeDx + 20) % 20, y:(snake[0].y + snakeDy + 20) % 20};
-        if(snake.some(s => s.x === head.x && s.y === head.y)) { 
-            clearInterval(snakeTimer); 
-            alert("Game Over!"); 
-            return; 
-        }
+        if(snake.some(s => s.x === head.x && s.y === head.y)) { clearInterval(snakeTimer); alert("Game Over!"); return; }
         snake.unshift(head);
         if(head.x === apple.x && head.y === apple.y) apple = {x:Math.floor(Math.random()*20), y:Math.floor(Math.random()*20)}; else snake.pop();
         ctx.fillStyle="#111"; ctx.fillRect(0,0,300,300);
@@ -358,7 +355,7 @@ function initSnake() {
     }, 120);
 }
 
-/* KEYBOARD CONTROLS FIX */
+/* KEYBOARD FIX */
 window.addEventListener("keydown", (e) => {
     if(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
         e.preventDefault(); 
@@ -369,7 +366,7 @@ window.addEventListener("keydown", (e) => {
     }
 });
 
-/* TicTacToe AI & helpers kept to ensure full functionality */
+/* TIC TAC TOE AI */
 function aiMove() {
     let bestScore = -Infinity; let move;
     for(let i=0; i<9; i++) { if(board[i] === "") { board[i] = "O"; let score = minimax(board, 0, false); board[i] = ""; if(score > bestScore) { bestScore = score; move = i; } } }
